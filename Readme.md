@@ -43,8 +43,6 @@ Other models include the M5 Pro and M5 Jr.
   - Graphics and sound functions
 * BASIC-F
   - Floating point arithmetic
-* FALC
-  - Applications package
 
 ## What is implemented
 ### Basic HW
@@ -63,6 +61,20 @@ Other models include the M5 Pro and M5 Jr.
 ### Other
 * Cassette emulation. (CAS format)
 * ROM load.
+
+## How to use
+Create subfolder Sord M5 in games folder on SD card and put thre *.BIN, *.ROM, *.CAS files you have
+
+You can check out https://archive.org/details/Sord_M5_TOSEC_2012_04_23
+
+### Load ROM cartrige 
+* This option can be used when Memory extension None, EM- 5, EM-64 and Cartrige selected None
+* Use menu "Load to ROM *.bin, ROM" to load requested binary file into ROM
+
+### Load Application/games via CAS
+* Select cartrige BASIC-I
+* Use menu "Load Tape *.CAS" to load requested CAS file
+* Type "tape" for a binary file or "old" for the Basic program
 
 ## For more info see
 * https://en.wikipedia.org/wiki/Sord_M5

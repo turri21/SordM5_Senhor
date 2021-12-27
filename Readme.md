@@ -32,6 +32,7 @@ Other models include the M5 Pro and M5 Jr.
   * TV out
   * Video out (phono socket)
   * Sound out (phono socket)
+  * Two joypad connector
   * Centronics 16-pin interface
   * 8-pin DIN cassette connector
   * Power supply: external
@@ -50,6 +51,8 @@ Other models include the M5 Pro and M5 Jr.
 * CTC
 * VDP TMS9918
 * Sound SN76489
+* Keyboard
+* Joypad
 
 ### Expansion modules
 * EM-5 32 KB RAM expansion (memory)

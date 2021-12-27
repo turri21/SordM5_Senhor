@@ -28,6 +28,8 @@ entity keyboard is
    reset_n_i    : in  std_logic;
 	 clk_i        : in  std_logic;
 	 ps2_code_i   : in  std_logic_vector(10 downto 0);
+	 joy0_i       : in  std_logic_vector(5 downto 0);
+	 joy1_i       : in  std_logic_vector(5 downto 0);
 	 kb_addr_i		: in  std_logic_vector(2 downto 0);
 	 kb_data_o		: out std_logic_vector(7 downto 0);
 	 kb_rst_o     : out std_logic
@@ -41,6 +43,7 @@ architecture rtl of keyboard is
   signal keyMatrix : keyMatrixType := (others => (others => '0'));
   signal scancode : std_logic_vector(7 downto 0);
   signal resetKey, release, changed : std_logic := '0';
+  signal key1, key2, key5, key6 : std_logic := '0';
 	
 begin
   kb_rst_o <= resetKey;
@@ -74,12 +77,12 @@ begin
           when x"29" => keyMatrix(0)(6) <= release; -- SPACE
           when x"5a" => keyMatrix(0)(7) <= release; -- ENTER
           --- port 31
-          when x"16" => keyMatrix(1)(0) <= release; -- 1
-          when x"1e" => keyMatrix(1)(1) <= release; -- 2
+			 when x"16" => key1 <= release; -- 1
+			 when x"1e" => key2 <= release; -- 2
           when x"26" => keyMatrix(1)(2) <= release; -- 3
           when x"25" => keyMatrix(1)(3) <= release; -- 4
-          when x"2e" => keyMatrix(1)(4) <= release; -- 5
-          when x"36" => keyMatrix(1)(5) <= release; -- 6
+			 when x"2e" => key5 <= release; -- 5
+			 when x"36" => key6 <= release; -- 6
           when x"3d" => keyMatrix(1)(6) <= release; -- 7
           when x"3e" => keyMatrix(1)(7) <= release; -- 8
           --- port 32
@@ -127,22 +130,18 @@ begin
           when x"4c" => keyMatrix(6)(5) <= release; -- ;
           when x"52" => keyMatrix(6)(6) <= release; -- :
           when x"5b" => keyMatrix(6)(7) <= release; -- ]				  
-          --- Port 37
-          when x"0c" => keyMatrix(7)(0) <= release; --
-          when x"06" => keyMatrix(7)(1) <= release; -- 
-          when x"05" => keyMatrix(7)(2) <= release; -- 
-          when x"04" => keyMatrix(7)(3) <= release; -- 
-          when x"74" => keyMatrix(7)(4) <= release; -- 	
-          when x"75" => keyMatrix(7)(5) <= release; -- 
-          when x"6b" => keyMatrix(7)(6) <= release; -- 
-          when x"72" => keyMatrix(7)(7) <= release; -- 
-          
           --- multy
           when x"66" => keyMatrix(3)(5) <= release; keyMatrix(0)(0) <= release; -- BACKSPACE       
           when x"76" => resetKey <= release; -- 
           when others =>null; 
         end case;
 		  end if;
+		  -- Joypad Port 37
+		  keyMatrix(7) <= (joy1_i(2)&joy1_i(1)&joy1_i(3)&joy1_i(0)&joy0_i(2)&joy0_i(1)&joy0_i(3)&joy0_i(0));		  
+		  keyMatrix(1)(0) <= key1 OR joy0_i(4);
+		  keyMatrix(1)(1) <= key2 OR joy0_i(5);
+		  keyMatrix(1)(4) <= key5 OR joy1_i(4);
+		  keyMatrix(1)(5) <= key6 OR joy1_i(5);
 		end if;
   end process;
 end; 

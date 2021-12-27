@@ -227,10 +227,11 @@ localparam CONF_STR = {
 	"V,v",`BUILD_DATE 
 };
 
-//wire forced_scandoubler;
 wire  [1:0] buttons;
 wire [31:0] status;
 wire [10:0] ps2_key;
+wire [5:0]  joy0;
+wire [5:0]  joy1;
 
 wire        ioctl_download;
 wire  [7:0] ioctl_index;
@@ -255,7 +256,9 @@ hps_io #(.CONF_STR(CONF_STR)) hps_io
 	//.buttons(buttons),
 	.status(status),
    .status_menumask({binary_load_enable,kb64_enable, cart_enable}),
-	.ps2_key(ps2_key), 
+	.ps2_key(ps2_key),
+	.joystick_0(joy0),
+	.joystick_1(joy1),
 	
 	.ioctl_wr(ioctl_wr),
 	.ioctl_addr(ioctl_addr),
@@ -323,6 +326,8 @@ sordM5 SordM5
 	.vblank_o(vblank),
 	.audio_o(audio), 
   .ps2_key_i(ps2_key),
+  .joy0_i(joy0),
+  .joy1_i(joy1),
   .ioctl_addr (ioctl_addr),
   .ioctl_dout (ioctl_dout),
   .ioctl_index (ioctl_index),

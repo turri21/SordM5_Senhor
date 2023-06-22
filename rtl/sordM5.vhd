@@ -43,6 +43,8 @@ entity sordM5 is
     joy1_i          : in  std_logic_vector(5 downto 0);
     ramMode_i       : in  std_logic_vector(8 downto 0);
     tape_sound_i    : in  std_logic;
+    tape_data_i     : in  std_logic;
+    tape_adc_i      : in  std_logic;
     -- RGB Video Interface ----------------------------------------------------
     border_i        : in  std_logic;
     col_o           : out std_logic_vector( 3 downto 0);
@@ -124,6 +126,7 @@ architecture struct of sordM5 is
   signal cas_ce_n_s       : std_logic;
   signal casOut_s         : std_logic;
   signal casOn_s          : std_logic;
+  signal casData_s        : std_logic;
   
   -- CTC interface
   signal d_from_ctc_s     : std_logic_vector(7 downto 0);
@@ -183,9 +186,10 @@ architecture struct of sordM5 is
 
 begin
 
-  vdd_s <= '1';
-  audio_o <= (casOut_s&psg_audio_s&"00") when tape_sound_i = '0' else ('0'&psg_audio_s&"00");
-  nmi_n_s <= '1'; 
+  vdd_s     <= '1';
+  casData_s <= tape_data_i when tape_adc_i='1' else casOut_s;
+  audio_o   <= (casData_s&psg_audio_s&"00") when tape_sound_i = '0' else ('0'&psg_audio_s&"00");
+  nmi_n_s   <= '1'; 
 
   -----------------------------------------------------------------------------
   -- Reset generation
@@ -369,7 +373,7 @@ begin
       ctc_ce_n_i      => ctc_ce_n_s,
       ctc_d_i         => d_from_ctc_s,
       int_vect_ce_n_i => int_vect_ce_n_s,
-      casOut_i        => casOut_s,
+      casOut_i        => casData_s,
       rd_n_i          => rd_n_s,
       ram_d_i         => ram_d_s 
     );

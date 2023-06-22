@@ -213,9 +213,10 @@ localparam CONF_STR = {
   "h1O8,EM64 boot on,ROM,RAM;",  
   "h2F1,binROM,Load to ROM;",
   "-;",
-  "F2,CAS,Load Tape;",
-  "O9,Fast Tape Load,On,Off;",
-  "OA,Tape Sound,On,Off;",
+  "OI,Tape Input,File,ADC;",
+  "H3F2,CAS,Load Tape;",
+  "H3O9,Fast Tape Load,On,Off;",
+  "H3OA,Tape Sound,On,Off;",
 	"-;",
 	"-;",
   "OCD,Aspect ratio,Original,Full Screen,[ARC1],[ARC2];",
@@ -255,7 +256,7 @@ hps_io #(.CONF_STR(CONF_STR)) hps_io
 
 	//.buttons(buttons),
 	.status(status),
-   .status_menumask({binary_load_enable,kb64_enable, cart_enable}),
+   .status_menumask({status[18],binary_load_enable,kb64_enable, cart_enable}),
 	.ps2_key(ps2_key),
 	.joystick_0(joy0),
 	.joystick_1(joy1),
@@ -345,6 +346,8 @@ sordM5 SordM5
   .DDRAM_CLK ( DDRAM_CLK),
   .casSpeed (status[9]),
   .tape_sound_i (status[10]),
+  .tape_data_i (tape_in),
+  .tape_adc_i (status[18]),
   .ramMode_i (status[8:0])
 );
 
@@ -372,6 +375,19 @@ video_mixer #(.LINE_LENGTH(290), .GAMMA(1)) video_mixer
 	.VSync(vs_o),
 	.HBlank(hblank),
 	.VBlank(vblank)
+);
+
+/////////////////  Tape In   /////////////////
+wire tape_adc, tape_adc_act, tape_in;
+
+assign tape_in = tape_adc_act & tape_adc;
+
+ltc2308_tape #(.ADC_RATE(120000), .CLK_RATE(42666666)) tape
+(
+   .clk(clk_sys),
+   .ADC_BUS(ADC_BUS),
+   .dout(tape_adc),
+   .active(tape_adc_act)
 );
 
 endmodule

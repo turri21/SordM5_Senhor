@@ -2,8 +2,6 @@
 
 Tested: Working Video 720p, 1080p & Sound
 
-Dev notes: Framework updated
-
 # Sord M5
 From Wikipedia, the free encyclopedia
 

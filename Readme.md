@@ -1,3 +1,8 @@
+=(SordM5_Senhor notes)=-
+
+Tested: Working Video 720p, 1080p & Sound
+
+___
 # Sord M5
 From Wikipedia, the free encyclopedia
 

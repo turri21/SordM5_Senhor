@@ -221,15 +221,16 @@ localparam CONF_STR = {
   "H3F2,CAS,Load Tape;",
   "H3O9,Fast Tape Load,On,Off;",
   "H3OA,Tape Sound,On,Off;",
-	"-;",
-	"-;",
+  "-;",
+  "OJ,Swap Joysticks,No,Yes;",
+  "-;",
   "OCD,Aspect ratio,Original,Full Screen,[ARC1],[ARC2];",
   "OEF,Scandoubler Fx,None,HQ2x,CRT 25%,CRT 50%;",
   "OG,Border,No,Yes;",
   "-;",
-	"TH,Reset;",
-	"RH,Reset and close OSD;",
-	"V,v",`BUILD_DATE 
+  "TH,Reset;",
+  "RH,Reset and close OSD;",
+  "V,v",`BUILD_DATE 
 };
 
 wire  [1:0] buttons;
@@ -237,6 +238,9 @@ wire [31:0] status;
 wire [10:0] ps2_key;
 wire [5:0]  joy0;
 wire [5:0]  joy1;
+
+wire [31:0] joy_a = status[19] ? joy1 : joy0;
+wire [31:0] joy_b = status[19] ? joy0 : joy1;
 
 wire        ioctl_download;
 wire  [7:0] ioctl_index;
@@ -331,8 +335,8 @@ sordM5 SordM5
 	.vblank_o(vblank),
 	.audio_o(audio), 
   .ps2_key_i(ps2_key),
-  .joy0_i(joy0),
-  .joy1_i(joy1),
+  .joy0_i(joy_a),
+  .joy1_i(joy_b),
   .ioctl_addr (ioctl_addr),
   .ioctl_dout (ioctl_dout),
   .ioctl_index (ioctl_index),

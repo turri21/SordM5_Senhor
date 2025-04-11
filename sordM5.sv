@@ -210,7 +210,7 @@ localparam CONF_STR = {
 	"Sord M5;;",
 	"-;",
   "O02,Memory extension,None,EM-5,EM-64,64KBF,64KRX,BrnoMod;",
-  "h0O34,Cartrige,None,BASIC-I,BASIC-G,BASIC-F;",
+  "h0O34,Cartridge,None,BASIC-I,BASIC-G,BASIC-F;",
   "h1O5,EM64 mode,64KB,32KB;",
   "h1O6,EM64 mon. deactivate,Dis.,En.;",
   "h1O7,EM64 wp low 32KB,Dis.,En.;",
